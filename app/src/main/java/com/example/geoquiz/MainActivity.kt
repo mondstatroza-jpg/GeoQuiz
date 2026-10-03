@@ -36,7 +36,16 @@ class MainActivity : AppCompatActivity() {
         val btnFalse = findViewById<Button>(R.id.btnFalse)
         val btnNext = findViewById<Button>(R.id.btnNext)
 
-        // Функция обновления вопроса
+        // 1. Функция показа результата (ПЕРЕСТАВЛЕНА НАВЕРХ!)
+        fun showResult() {
+            Snackbar.make(
+                findViewById(R.id.rootLayout),
+                "Правильных ответов: $score из ${questionBank.size}",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+
+        // 2. Функция обновления вопроса
         fun updateQuestion() {
             if (currentIndex < questionBank.size) {
                 tvQuestion.text = questionBank[currentIndex]
@@ -49,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Функция проверки ответа
+        // 3. Функция проверки ответа
         fun checkAnswer(userAnswer: Boolean) {
             val correctAnswer = answerBank[currentIndex]
             if (userAnswer == correctAnswer) {
@@ -66,17 +75,8 @@ class MainActivity : AppCompatActivity() {
             // Если это последний вопрос — скрываем Next и показываем результат
             if (currentIndex == questionBank.size - 1) {
                 btnNext.visibility = View.GONE
-                showResult()
+                showResult() // Теперь ошибки не будет, функция уже объявлена выше
             }
-        }
-
-        // Функция показа результата во всплывающей панели (Snackbar)
-        fun showResult() {
-            Snackbar.make(
-                findViewById(R.id.rootLayout),
-                "Правильных ответов: $score из ${questionBank.size}",
-                Snackbar.LENGTH_LONG
-            ).show()
         }
 
         // Назначаем обработчики нажатий
